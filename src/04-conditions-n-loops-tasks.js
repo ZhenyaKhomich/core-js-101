@@ -130,8 +130,16 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const rect1Right = rect1.left + rect1.width;
+  const rect1Bottom = rect1.top + rect1.height;
+  const rect2Right = rect2.left + rect2.width;
+  const rect2Bottom = rect2.top + rect2.height;
+  if (rect1Right <= rect2.left || rect1.left >= rect2Right
+    || rect1Bottom <= rect2.top || rect1.top >= rect2Bottom) {
+    return false;
+  }
+  return true;
 }
 
 
@@ -161,8 +169,12 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const a = point.x - circle.center.x;
+  const b = point.y - circle.center.y;
+  const c = a ** 2 + b ** 2;
+  const d = circle.radius ** 2;
+  return c < d;
 }
 
 
