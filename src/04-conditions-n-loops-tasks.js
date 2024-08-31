@@ -217,8 +217,19 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let aa = a > b ? `${b}, ${a}` : `${a}, ${b}`;
+  if (isStartIncluded) {
+    aa = `[${aa}`;
+  } else {
+    aa = `(${aa}`;
+  }
+  if (isEndIncluded) {
+    aa = `${aa}]`;
+  } else {
+    aa = `${aa})`;
+  }
+  return aa;
 }
 
 
@@ -276,8 +287,18 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const a = ccn.toString().split('');
+  let b;
+  if (a.length % 2 === 0) {
+    b = a.map((el, ind) => (ind % 2 === 0 ? el * 2 : el));
+  } else {
+    b = a.map((el, ind) => (ind % 2 !== 0 ? el * 2 : el));
+  }
+  const c = b.map((el) => (el > 9 ? el - 9 : el));
+  const k = c.map((el) => (typeof el === 'string' ? Number(el) : el));
+  const d = k.reduce((o, u) => o + u, 0);
+  return d % 10 === 0;
 }
 
 /**
