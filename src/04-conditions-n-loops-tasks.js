@@ -344,8 +344,23 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = {
+    ')': '(',
+    ']': '[',
+    '}': '{',
+    '>': '<',
+  };
+  return str.split('').reduce((stack, char) => {
+    if (['(', '[', '{', '<'].includes(char)) {
+      stack.push(char);
+    } else if ([')', ']', '}', '>'].includes(char)) {
+      if (stack.pop() !== brackets[char]) {
+        stack.push(false); // Если нашли несоответствие, добавляем "false" в стек
+      }
+    }
+    return stack;
+  }, []).length === 0;
 }
 
 
@@ -386,8 +401,20 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  if (pathes.length === 0) return '';
+  const split = pathes.map((path) => path.split('/'));
+  const m = Math.min(...split.map((parts) => parts.length));
+  const c = [];
+  for (let i = 0; i < m; i += 1) {
+    const s = split[0][i];
+    if (split.every((parts) => parts[i] === s)) {
+      c.push(s);
+    } else {
+      break;
+    }
+  }
+  return c.length > 0 ? `${c.join('/')}/` : '';
 }
 
 
@@ -409,8 +436,11 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const rowsM1 = m1.length;
+  const colsM2 = m2[0].length;
+  const r = Array.from({ length: rowsM1 }, () => Array(colsM2).fill(0));
+  return r.map((row, i) => row.map((_, j) => m1[i].reduce((sum, el, k) => sum + el * m2[k][j], 0)));
 }
 
 
@@ -444,8 +474,20 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const lines = [
+    [position[0][0], position[0][1], position[0][2]],
+    [position[1][0], position[1][1], position[1][2]],
+    [position[2][0], position[2][1], position[2][2]],
+    [position[0][0], position[1][0], position[2][0]],
+    [position[0][1], position[1][1], position[2][1]],
+    [position[0][2], position[1][2], position[2][2]],
+    [position[0][0], position[1][1], position[2][2]],
+    [position[0][2], position[1][1], position[2][0]],
+  ];
+  const winnerLine = lines.find((line) => line[0] && line[0] === line[1] && line[1] === line[2]);
+
+  return winnerLine ? winnerLine[0] : undefined;
 }
 
 
